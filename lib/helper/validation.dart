@@ -5,11 +5,14 @@ import 'package:intl_phone_field/phone_number.dart';
 class Validation {
   TextEditingController fullNameTextEditingController = TextEditingController();
   TextEditingController emailTextEditingController = TextEditingController();
-  TextEditingController birthOfDateTextEditingController = TextEditingController();
+  TextEditingController birthOfDateTextEditingController =
+      TextEditingController();
   TextEditingController phoneTextEditingController = TextEditingController();
   TextEditingController passwordTextEditingController = TextEditingController();
-  TextEditingController newPasswordTextEditingController = TextEditingController();
-  TextEditingController passwordConfirmationTextEditingController = TextEditingController();
+  TextEditingController newPasswordTextEditingController =
+      TextEditingController();
+  TextEditingController passwordConfirmationTextEditingController =
+      TextEditingController();
   TextEditingController otpTextEditingController = TextEditingController();
 
   bool showErrorFullName = false;
@@ -61,18 +64,14 @@ class Validation {
   void checkBirthDate() {
     if (birthOfDateTextEditingController.text.isNotEmpty) {
       try {
-        // تحويل النص إلى تاريخ باستخدام التنسيق الصحيح المدخل من المستخدم
-        DateTime pickedDate = DateFormat("dd/MM/yyyy").parse(birthOfDateTextEditingController.text);
-        print('Converted Date: $pickedDate'); // طباعة التاريخ المحول
-
-        // إذا نجح التحويل
+        DateTime pickedDate = DateFormat(
+          "dd/MM/yyyy",
+        ).parse(birthOfDateTextEditingController.text);
         showErrorBirthDate = false;
       } catch (e) {
-        print('Error parsing date: $e'); // طباعة تفاصيل الخطأ
         showErrorBirthDate = true;
       }
     } else {
-      print('No date entered'); // إذا لم يتم إدخال تاريخ
       showErrorBirthDate = true;
     }
   }
@@ -91,13 +90,14 @@ class Validation {
         errorMessage = "Email cannot be empty.";
       }
     } else {
-      String pattern =
-          r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$';      RegExp regExp = RegExp(pattern);
+      String pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$';
+      RegExp regExp = RegExp(pattern);
 
       showErrorEmail = !regExp.hasMatch(email) || email.isEmpty;
 
       if (showErrorEmail) {
-        errorMessage = "Please enter a valid email address with a valid domain (gmail, hotmail, outlook, zoho, yahoo).";
+        errorMessage =
+            "Please enter a valid email address with a valid domain (gmail, hotmail, outlook, zoho, yahoo).";
       }
     }
   }
@@ -108,28 +108,25 @@ class Validation {
     if (phone.isEmpty) {
       showErrorPhone = true;
       phoneErrorText = 'Phone number cannot be empty';
-    }
-    else if (!RegExp(r'^[0-9]+$').hasMatch(phone)) {
+    } else if (!RegExp(r'^[0-9]+$').hasMatch(phone)) {
       showErrorPhone = true;
       phoneErrorText = 'Phone number must contain only digits';
-    }
-    else if (phone.length != 10) {
+    } else if (phone.length != 10) {
       showErrorPhone = true;
       phoneErrorText = 'Phone number must be 10 digits';
     }
 
     if (showErrorPhone) {
-      print(phoneErrorText);
-    } else {
-      print('Phone number is valid');
-    }
+    } else {}
   }
 
   void checkPassword({required String password, bool isLogin = false}) {
     if (isLogin) {
       showErrorPassword = password.isEmpty;
     } else {
-      final RegExp regExp = RegExp(r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#\$&*~]).{8,}$');
+      final RegExp regExp = RegExp(
+        r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#\$&*~]).{8,}$',
+      );
 
       showErrorPassword = !regExp.hasMatch(password);
     }
@@ -140,11 +137,16 @@ class Validation {
   }
 
   void checkNewPassword({required String newPassword}) {
-    final RegExp regExp = RegExp(r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#\$&*~]).{8,}$');
+    final RegExp regExp = RegExp(
+      r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#\$&*~]).{8,}$',
+    );
     showErrorNewPassword = !regExp.hasMatch(newPassword);
   }
 
-  void checkConfirmNewPassword({required String newPassword, required String passwordConfirmation}) {
+  void checkConfirmNewPassword({
+    required String newPassword,
+    required String passwordConfirmation,
+  }) {
     showErrorConfirmNewPassword =
         newPassword != passwordConfirmation || passwordConfirmation.isEmpty;
   }

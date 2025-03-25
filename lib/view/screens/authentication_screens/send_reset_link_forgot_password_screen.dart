@@ -26,9 +26,9 @@ class _SendVerificationCodeScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0XFF25AE4B),
-      body: SafeArea(
-        top: true,
+        backgroundColor: const Color(0XFF25AE4B),
+        body: SafeArea(
+          top: true,
           left: true,
           child: Container(
             height: responsiveHeight(context, 932),
@@ -286,6 +286,7 @@ class _SendVerificationCodeScreenState
     return BlocConsumer<UserCubit, UserState>(
       listener: (context, state) {
         if (state is ForgotPasswordSuccessState) {
+
           showDialog(
             context: context,
             builder: (BuildContext context) {
@@ -297,7 +298,7 @@ class _SendVerificationCodeScreenState
                 child: SizedBox(
                   width: responsiveWidth(context, 343),
                   height: responsiveHeight(context, 389),
-                  child: VerificationCodeWidget(email:validation.emailTextEditingController.text, otp: validation.otpTextEditingController.text),
+                  child: VerificationCodeWidget(email:validation.emailTextEditingController.text),
                 ),
               );
             },
@@ -338,8 +339,7 @@ class _SendVerificationCodeScreenState
           ),
           child: ElevatedButton(
             onPressed: () async {
-              if (validation.emailTextEditingController.text.isEmpty &&
-                  validation.phoneTextEditingController.text.isEmpty) {
+              if (validation.emailTextEditingController.text.isEmpty) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text(
@@ -353,11 +353,8 @@ class _SendVerificationCodeScreenState
               validation.checkEmail(
                 email: validation.emailTextEditingController.text,
               );
-              validation.checkPhone(
-                phone: validation.phoneTextEditingController.text,
-              );
 
-              if (!validation.showErrorEmail && !validation.showErrorPhone) {
+              if (!validation.showErrorEmail) {
                 final userCubit = context.read<UserCubit>();
 
                 await userCubit.forgotPasswordResetLink(
@@ -372,18 +369,6 @@ class _SendVerificationCodeScreenState
                   ),
                 );
               }
-              // showDialog(
-              //   context: context,
-              //   builder: (BuildContext context) {
-              //     return Dialog(
-              //       backgroundColor: Colors.white,
-              //       shape: RoundedRectangleBorder(
-              //         borderRadius: BorderRadius.circular(12),
-              //       ),
-              //       child: VerificationCodeWidget(),
-              //     );
-              //   },
-              // );
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: const Color(0xFF32B768),

@@ -72,5 +72,8 @@
   "userLocation": "موقع المستخدم",
   "currentLocation": "الموقع الحالي",
   "yourLocation": "موقعك الحالى",
-  "enterYourCurrentLocation": "أدخل موقعك الحالي"
+  "enterYourCurrentLocation": "أدخل موقعك الحالي",
+  "passwordsDoNotMatch" : "كلمة المرور غير مطابقة",
+  "pleaseEnterValidPassword": "يرجى إدخال كلمة مرور صالحة",
+  "date": "التاريخ"
 }

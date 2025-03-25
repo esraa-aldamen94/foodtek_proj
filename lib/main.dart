@@ -2,15 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foodtek_project/cubits/location_cubit.dart';
 import 'package:foodtek_project/states/language_state.dart';
-import 'package:foodtek_project/view/screens/authentication_screens/send_reset_link_forgot_password_screen.dart';
-import 'package:foodtek_project/view/screens/location_screen/location_screen.dart';
 import 'package:foodtek_project/view/screens/onboarding_screens/splash_screen.dart';
 import 'cubits/language_cubit.dart';
 import 'cubits/user_cubit.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'my_bloc_observer.dart';
-
 void main() {
   Bloc.observer = MyBlocObserver();
 
@@ -59,4 +56,5 @@ class MyApp extends StatelessWidget {
   }
 }
 //esra.aldamen94@gmail.com
+//Ammanjordan1991##
 

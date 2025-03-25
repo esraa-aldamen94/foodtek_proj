@@ -227,7 +227,7 @@ class UserCubit extends Cubit<UserState> {
         return;
       }
       final GoogleSignInAuthentication googleAuth =
-      await googleUser.authentication;
+          await googleUser.authentication;
       if (googleAuth.idToken == null || googleAuth.accessToken == null) {
         emit(
           GoogleSignInFailedState(errorMessage: 'Invalid Google credentials'),
@@ -264,7 +264,6 @@ class UserCubit extends Cubit<UserState> {
   Future<void> forgotPasswordResetLink(String email) async {
     emit(ForgotPasswordLoadingState());
     try {
-      // التحقق من صحة الإيميل
       if (!RegExp(
         r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$",
       ).hasMatch(email)) {
@@ -276,29 +275,22 @@ class UserCubit extends Cubit<UserState> {
         return;
       }
 
-      // الحصول على التوكين
-      String? token = await getToken();
-      if (token == null || token.isEmpty) {
-        emit(
-          ForgotPasswordFailedState(
-            error: 'No token found. Please log in again.',
-          ),
-        );
-        return;
-      }
-
-      // إذا كان الإيميل مش فاضي
       if (email.isNotEmpty) {
         final response = await http.get(
           Uri.parse('${ConstValues.baseUrl}/reset_password?email=$email'),
           headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
-            'Authorization': 'Bearer $token',
+            // 'Authorization': 'Bearer $token',
           },
         );
 
         if (response.statusCode == 200) {
+          await SecureStorageHelper.instance.savePrefString(
+            key: "email",
+            value: email,
+          );
+          print('Email stored successfully in secure storage: ${email}');
           final data = jsonDecode(response.body);
           print('Password reset link sent: $data');
           emit(
@@ -330,22 +322,16 @@ class UserCubit extends Cubit<UserState> {
     }
   }
 
-
   Future<void> verifyOtp(String email, String otp) async {
     emit(UserLoadingState());
     try {
-      const String url = "https://foodtek-main-ognlf5.laravel.cloud/api/verify-reset-otp";
+      const String url =
+          "https://foodtek-main-ognlf5.laravel.cloud/api/verify-reset-otp";
       final Map<String, String> headers = {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
       };
-      final Map<String, dynamic> body = {
-        "email": email,
-        "otp": otp,
-      };
-
-      debugPrint("API URL: $url");
-      debugPrint("\u{1F4E9} Sending request body: ${json.encode(body)}");
+      final Map<String, dynamic> body = {"email": email, "otp": otp};
 
       final response = await http.post(
         Uri.parse(url),
@@ -353,92 +339,101 @@ class UserCubit extends Cubit<UserState> {
         body: json.encode(body),
       );
 
-      debugPrint("Response Status Code: ${response.statusCode}");
-      debugPrint("Response Body: ${response.body}");
-
-      if (response.statusCode == 200)  {
-        await SecureStorageHelper.instance.savePrefString(key: "email", value: email);
-        await SecureStorageHelper.instance.savePrefString(key: "otp", value: otp);
+      if (response.statusCode == 200) {
+        await SecureStorageHelper.instance.getPrefString(
+          key: "email",
+          defaultValue: email,
+        );
+        await SecureStorageHelper.instance.savePrefString(
+          key: "otp",
+          value: otp,
+        );
         final Map<String, dynamic> responseData = json.decode(response.body);
         if (responseData['status'] == "success" &&
             responseData.containsKey('data')) {
           emit(VerifyOtpSuccessState());
         } else {
-          emit(VerifyOtpFailedState(
-            errorMessage: responseData['message'] ??
-                "Invalid OTP, please try again.",
-          ));
+          emit(
+            VerifyOtpFailedState(
+              errorMessage:
+                  responseData['message'] ?? "Invalid OTP, please try again.",
+            ),
+          );
         }
       } else {
-        emit(VerifyOtpFailedState(
-          errorMessage: "Server error: ${response
-              .statusCode}, please try again later.",
-        ));
+        emit(
+          VerifyOtpFailedState(
+            errorMessage:
+                "Server error: ${response.statusCode}, please try again later.",
+          ),
+        );
       }
     } catch (e) {
       emit(VerifyOtpFailedState(errorMessage: "An error occurred: $e"));
     }
   }
 
-
   Future<void> resetPassword(
-      String email, String otp, String password, String passwordConfirmation) async {
+    String email,
+    String otp,
+    String password,
+    String passwordConfirmation,
+  ) async {
     emit(UserLoadingResetPassword());
-    print('Reset Password Request Sent: email=$email, otp=$otp');
 
     try {
       final Map<String, String> headers = {
         'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       };
-      final String email = await SecureStorageHelper.instance.getPrefString(key: "email", defaultValue: "");
-      final String otp = await SecureStorageHelper.instance.getPrefString(key: "otp", defaultValue: "");
+      final String email = await SecureStorageHelper.instance.getPrefString(
+        key: "email",
+        defaultValue: "",
+      );
+      final String otp = await SecureStorageHelper.instance.getPrefString(
+        key: "otp",
+        defaultValue: "",
+      );
 
       if (email.isEmpty || otp.isEmpty) {
         return;
       }
+
       final Map<String, dynamic> body = {
         'password': password,
         'password_confirmation': passwordConfirmation,
         'email': email,
         'otp': otp,
       };
-      print('Email: ${validation.emailTextEditingController.text}');
-      print('OTP: ${validation.otpTextEditingController.text}');
-      print('New Password: ${validation.newPasswordTextEditingController.text}');
-      print('Confirm Password: ${validation.passwordConfirmationTextEditingController.text}');
-
-      print('Sending Request: ${jsonEncode(body)}');
 
       final response = await http.put(
-        Uri.parse('https://foodtek-main-ognlf5.laravel.cloud/api/reset_password'),
+        Uri.parse(
+          'https://foodtek-main-ognlf5.laravel.cloud/api/reset_password',
+        ),
         headers: headers,
         body: jsonEncode(body),
       );
-      print('Email: ${validation.emailTextEditingController.text}');
-      print('OTP: ${validation.otpTextEditingController.text}');
-      print('New Password: ${validation.newPasswordTextEditingController.text}');
-      print('Confirm Password: ${validation.passwordConfirmationTextEditingController.text}');
-
-      print('Response Code: ${response.statusCode}');
-      print('Response Body: ${response.body}');
 
       if (response.statusCode == 200) {
         final responseData = jsonDecode(response.body);
-        emit(ResetPasswordSuccessState(successMessage: responseData['message']));
+        emit(ResetPasswordSuccessState());
       } else {
         final responseData = jsonDecode(response.body);
-        emit(ResetPasswordFailedState(
-            errorMessage: responseData['message'] ?? 'Failed to reset password.'));
+        emit(
+          ResetPasswordFailedState(
+            errorMessage:
+                responseData['message'] ?? 'Failed to reset password.',
+          ),
+        );
       }
     } catch (e) {
-      print('Connection error: ${e.toString()}');
-      emit(ResetPasswordFailedState(
-          errorMessage: 'Connection error: ${e.toString()}'));
+      emit(
+        ResetPasswordFailedState(
+          errorMessage: 'Connection error: ${e.toString()}',
+        ),
+      );
     }
   }
-
-
 
   Future<String?> getToken() async {
     return await SecureStorageHelper.instance.getPrefString(

@@ -7,16 +7,13 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:pinput/pinput.dart';
 import '../../cubits/user_cubit.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
-import '../../helper/secure_storage_helper.dart';
 import '../../states/user_state.dart';
 import '../screens/authentication_screens/reset_password_screen.dart';
 
 class VerificationCodeWidget extends StatefulWidget {
   final String email;
-  final String otp;
-  const VerificationCodeWidget({required this.email,required this.otp, Key? key})
-    : super(key: key);
+  const VerificationCodeWidget({required this.email,Key? key})
+      : super(key: key);
 
   @override
   State<VerificationCodeWidget> createState() => _VerificationCodeWidgetState();
@@ -65,20 +62,16 @@ class _VerificationCodeWidgetState extends State<VerificationCodeWidget> {
     return BlocConsumer<UserCubit, UserState>(
       listener: (context, state)async {
         if (state is VerifyOtpSuccessState) {
-          await SecureStorageHelper.instance.savePrefString(key: "email", value: widget.email);
-          await SecureStorageHelper.instance.savePrefString(key: "otp", value: widget.otp);
-          debugPrint("✅ OTP verification successful!");
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
               builder: (context) => ResetPasswordScreen(
                 email: widget.email,
-                otp: widget.otp,
+                otp: validation.otpTextEditingController.text,
               ),
             ),
           );
         } else if (state is VerifyOtpFailedState) {
-          debugPrint("❌ OTP verification failed: ${state.errorMessage}");
           ScaffoldMessenger.of(
             context,
           ).showSnackBar(SnackBar(content: Text(state.errorMessage)));
@@ -148,14 +141,14 @@ class _VerificationCodeWidgetState extends State<VerificationCodeWidget> {
                 ),
                 child: ElevatedButton(
                   onPressed:
-                      state is UserLoadingState
-                          ? null
-                          : () {
-                            context.read<UserCubit>().verifyOtp(
-                            widget.email,
-                              validation.otpTextEditingController.text,
-                            );
-                          },
+                  state is UserLoadingState
+                      ? null
+                      : () {
+                    context.read<UserCubit>().verifyOtp(
+                      widget.email,
+                      validation.otpTextEditingController.text,
+                    );
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.transparent,
                     shadowColor: Colors.transparent,
@@ -168,18 +161,18 @@ class _VerificationCodeWidgetState extends State<VerificationCodeWidget> {
                     ),
                   ),
                   child:
-                      state is UserLoadingState
-                          ? const SpinKitHourGlassWidget()
-                          : Text(
-                            AppLocalizations.of(context)!.verify,
-                            style: GoogleFonts.inter(
-                              fontSize: responsiveHeight(context, 14),
-                              fontWeight: FontWeight.w500,
-                              color: Colors.white,
-                              letterSpacing: -0.01,
-                              height: 1.4,
-                            ),
-                          ),
+                  state is UserLoadingState
+                      ? const SpinKitHourGlassWidget()
+                      : Text(
+                    AppLocalizations.of(context)!.verify,
+                    style: GoogleFonts.inter(
+                      fontSize: responsiveHeight(context, 14),
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white,
+                      letterSpacing: -0.01,
+                      height: 1.4,
+                    ),
+                  ),
                 ),
               ),
             ],

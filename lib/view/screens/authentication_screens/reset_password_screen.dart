@@ -36,17 +36,21 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   }
 
   Future<void> loadStoredData() async {
-    String storedEmail = await SecureStorageHelper.instance.getPrefString(key: "email", defaultValue: "");
-    String storedOtp = await SecureStorageHelper.instance.getPrefString(key: "otp", defaultValue: "");
-
-    print("Loaded Email: $storedEmail");
-    print("Loaded OTP: $storedOtp");
+    String storedEmail = await SecureStorageHelper.instance.getPrefString(
+      key: "email",
+      defaultValue: "",
+    );
+    String storedOtp = await SecureStorageHelper.instance.getPrefString(
+      key: "otp",
+      defaultValue: "",
+    );
 
     setState(() {
       validation.emailTextEditingController.text = storedEmail;
       validation.otpTextEditingController.text = storedOtp;
     });
   }
+
   @override
   void dispose() {
     validation.emailTextEditingController.dispose();
@@ -55,6 +59,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
     validation.passwordConfirmationTextEditingController.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,24 +74,20 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
               showDialog(
                 context: context,
                 barrierDismissible: false,
-                builder:
-                    (context) => AlertDialog(
-                      backgroundColor: Colors.transparent,
-                      content: ResetPasswordSuccessfulAnimation(),
-                      actions: [
-                        TextButton(
-                          onPressed: () {
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => LoginScreen(),
-                              ),
-                            );
-                          },
-                          child: Text(AppLocalizations.of(context)!.ok),
+                builder: (context) => AlertDialog(
+                  backgroundColor: Colors.transparent,
+                  content: GestureDetector(
+                    onTap: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => LoginScreen(),
                         ),
-                      ],
-                    ),
+                      );
+                    },
+                    child: ResetPasswordSuccessfulAnimation(),
+                  ),
+                ),
               );
             }
             if (state is ResetPasswordFailedState) {
@@ -420,29 +421,45 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                                         height: responsiveHeight(context, 48),
                                         child: ElevatedButton(
                                           onPressed: () async {
-                                            print(
-                                              "Email: ${validation.emailTextEditingController.text}, OTP: ${validation.otpTextEditingController.text}",
-                                            );
-
-                                            print(
-                                              "Email: ${validation.emailTextEditingController.text}",
-                                            );
-                                            print(
-                                              "OTP: ${validation.otpTextEditingController.text}",
-                                            );
-                                            print(
-                                              "New Password: ${validation.newPasswordTextEditingController.text}",
-                                            );
-                                            print(
-                                              "Confirm Password: ${validation.passwordConfirmationTextEditingController.text}",
-                                            );
-                                            final email = await SecureStorageHelper.instance.getPrefString(key: "email", defaultValue: "");
-                                            final otp = await SecureStorageHelper.instance.getPrefString(key: "otp", defaultValue: "");
+                                            // print(
+                                            //   "Email: ${validation.emailTextEditingController.text}, OTP: ${validation.otpTextEditingController.text}",
+                                            // );
+                                            //
+                                            // print(
+                                            //   "Email: ${validation.emailTextEditingController.text}",
+                                            // );
+                                            // print(
+                                            //   "OTP: ${validation.otpTextEditingController.text}",
+                                            // );
+                                            // print(
+                                            //   "New Password: ${validation.newPasswordTextEditingController.text}",
+                                            // );
+                                            // print(
+                                            //   "Confirm Password: ${validation.passwordConfirmationTextEditingController.text}",
+                                            // );
+                                            final email =
+                                                await SecureStorageHelper
+                                                    .instance
+                                                    .getPrefString(
+                                                      key: "email",
+                                                      defaultValue: "",
+                                                    );
+                                            final otp =
+                                                await SecureStorageHelper
+                                                    .instance
+                                                    .getPrefString(
+                                                      key: "otp",
+                                                      defaultValue: "",
+                                                    );
 
                                             if (email.isEmpty || otp.isEmpty) {
-                                              ScaffoldMessenger.of(context).showSnackBar(
+                                              ScaffoldMessenger.of(
+                                                context,
+                                              ).showSnackBar(
                                                 SnackBar(
-                                                  content: Text("email and otp are missing"),
+                                                  content: Text(
+                                                    "email and otp are missing",
+                                                  ),
                                                 ),
                                               );
                                               return;
@@ -485,17 +502,15 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                                               return;
                                             }
 
-                                            // إرسال البيانات إلى Cubit
                                             context.read<UserCubit>().resetPassword(
-                                              email,
-                                              otp,
-                                              // رمز OTP
+                                              widget.email,
+                                              widget.otp,
                                               validation
                                                   .newPasswordTextEditingController
-                                                  .text, // كلمة المرور الجديدة
+                                                  .text,
                                               validation
                                                   .passwordConfirmationTextEditingController
-                                                  .text, // تأكيد كلمة المرور
+                                                  .text,
                                             );
                                           },
                                           style: ElevatedButton.styleFrom(

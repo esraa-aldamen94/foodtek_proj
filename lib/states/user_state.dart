@@ -51,8 +51,7 @@ class UserNotLoggedInState extends UserState {}
 
 class UserLoadingResetPassword extends UserState {}
 class ResetPasswordSuccessState extends UserState {
-  final String successMessage;
-  ResetPasswordSuccessState({required this.successMessage});
+
 }
 class ResetPasswordFailedState extends UserState {
   final String errorMessage;

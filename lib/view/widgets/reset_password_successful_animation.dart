@@ -83,7 +83,6 @@ class _ResetPasswordSuccessfulAnimationState
             ),
           ),
           SizedBox(height: 12),
-          // "Password reset successfully" text
           Text(
             AppLocalizations.of(context)!.passwordResetSuccessfully,
             style: TextStyle(
