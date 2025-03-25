@@ -227,7 +227,7 @@ class UserCubit extends Cubit<UserState> {
         return;
       }
       final GoogleSignInAuthentication googleAuth =
-          await googleUser.authentication;
+      await googleUser.authentication;
       if (googleAuth.idToken == null || googleAuth.accessToken == null) {
         emit(
           GoogleSignInFailedState(errorMessage: 'Invalid Google credentials'),
@@ -356,7 +356,7 @@ class UserCubit extends Cubit<UserState> {
           emit(
             VerifyOtpFailedState(
               errorMessage:
-                  responseData['message'] ?? "Invalid OTP, please try again.",
+              responseData['message'] ?? "Invalid OTP, please try again.",
             ),
           );
         }
@@ -364,7 +364,7 @@ class UserCubit extends Cubit<UserState> {
         emit(
           VerifyOtpFailedState(
             errorMessage:
-                "Server error: ${response.statusCode}, please try again later.",
+            "Server error: ${response.statusCode}, please try again later.",
           ),
         );
       }
@@ -374,11 +374,11 @@ class UserCubit extends Cubit<UserState> {
   }
 
   Future<void> resetPassword(
-    String email,
-    String otp,
-    String password,
-    String passwordConfirmation,
-  ) async {
+      String email,
+      String otp,
+      String password,
+      String passwordConfirmation,
+      ) async {
     emit(UserLoadingResetPassword());
 
     try {
@@ -422,7 +422,7 @@ class UserCubit extends Cubit<UserState> {
         emit(
           ResetPasswordFailedState(
             errorMessage:
-                responseData['message'] ?? 'Failed to reset password.',
+            responseData['message'] ?? 'Failed to reset password.',
           ),
         );
       }

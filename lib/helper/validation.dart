@@ -6,13 +6,13 @@ class Validation {
   TextEditingController fullNameTextEditingController = TextEditingController();
   TextEditingController emailTextEditingController = TextEditingController();
   TextEditingController birthOfDateTextEditingController =
-      TextEditingController();
+  TextEditingController();
   TextEditingController phoneTextEditingController = TextEditingController();
   TextEditingController passwordTextEditingController = TextEditingController();
   TextEditingController newPasswordTextEditingController =
-      TextEditingController();
+  TextEditingController();
   TextEditingController passwordConfirmationTextEditingController =
-      TextEditingController();
+  TextEditingController();
   TextEditingController otpTextEditingController = TextEditingController();
 
   bool showErrorFullName = false;
@@ -97,7 +97,7 @@ class Validation {
 
       if (showErrorEmail) {
         errorMessage =
-            "Please enter a valid email address with a valid domain (gmail, hotmail, outlook, zoho, yahoo).";
+        "Please enter a valid email address with a valid domain (gmail, hotmail, outlook, zoho, yahoo).";
       }
     }
   }

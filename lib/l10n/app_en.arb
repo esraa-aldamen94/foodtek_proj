@@ -70,7 +70,11 @@
   "passwordResetSuccessfully": "Password reset successfully",
   "userLocation": "User Location",
   "currentLocation": "Current Location",
+<<<<<<< HEAD
   "yourLocation": "Your Location",
   "passwordsDoNotMatch": "Passwords do not match",
   "pleaseEnterValidPassword": "Please enter a valid password"
+=======
+  "yourLocation": "Your Location"
+>>>>>>> 15cb9e1c6db2a8e4b6bc9f6a649cb4af404d4150
 }

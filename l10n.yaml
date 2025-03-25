@@ -1,3 +1,7 @@
 arb-dir: lib/l10n
 template-arb-file: app_en.arb
+<<<<<<< HEAD
 output-localization-file: app_localizations.dart
+=======
+output-localization-file: app_localizations.dart
+>>>>>>> 15cb9e1c6db2a8e4b6bc9f6a649cb4af404d4150

@@ -182,7 +182,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                                   width: responsiveWidth(context, 295),
                                   child: Column(
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         AppLocalizations.of(
@@ -230,7 +230,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                                                 MaterialPageRoute(
                                                   builder:
                                                       (context) =>
-                                                          LoginScreen(),
+                                                      LoginScreen(),
                                                 ),
                                               );
                                             },
@@ -262,7 +262,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                                   width: responsiveWidth(context, 295),
                                   child: Column(
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         AppLocalizations.of(
@@ -299,8 +299,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                                         ),
                                         child: TextField(
                                           controller:
-                                              validation
-                                                  .newPasswordTextEditingController,
+                                          validation
+                                              .newPasswordTextEditingController,
                                           style: GoogleFonts.inter(
                                             fontWeight: FontWeight.w700,
                                             fontSize: 14,
@@ -310,9 +310,9 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                                           ),
                                           decoration: InputDecoration(
                                             hintText:
-                                                AppLocalizations.of(
-                                                  context,
-                                                )!.enterYourPassword,
+                                            AppLocalizations.of(
+                                              context,
+                                            )!.enterYourPassword,
                                             hintStyle: GoogleFonts.inter(
                                               fontWeight: FontWeight.w400,
                                               fontSize: responsiveHeight(
@@ -322,16 +322,16 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                                               color: Colors.grey[500],
                                             ),
                                             contentPadding:
-                                                EdgeInsets.symmetric(
-                                                  horizontal: responsiveWidth(
-                                                    context,
-                                                    13,
-                                                  ),
-                                                  vertical: responsiveHeight(
-                                                    context,
-                                                    14,
-                                                  ),
-                                                ),
+                                            EdgeInsets.symmetric(
+                                              horizontal: responsiveWidth(
+                                                context,
+                                                13,
+                                              ),
+                                              vertical: responsiveHeight(
+                                                context,
+                                                14,
+                                              ),
+                                            ),
                                             border: InputBorder.none,
                                           ),
                                         ),
@@ -375,8 +375,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                                         ),
                                         child: TextField(
                                           controller:
-                                              validation
-                                                  .passwordConfirmationTextEditingController,
+                                          validation
+                                              .passwordConfirmationTextEditingController,
                                           style: GoogleFonts.inter(
                                             fontWeight: FontWeight.w700,
                                             fontSize: 14,
@@ -386,9 +386,9 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                                           ),
                                           decoration: InputDecoration(
                                             hintText:
-                                                AppLocalizations.of(
-                                                  context,
-                                                )!.reEnterYourPassword,
+                                            AppLocalizations.of(
+                                              context,
+                                            )!.reEnterYourPassword,
                                             hintStyle: GoogleFonts.inter(
                                               fontWeight: FontWeight.w400,
                                               fontSize: responsiveHeight(
@@ -398,16 +398,16 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                                               color: Colors.grey[500],
                                             ),
                                             contentPadding:
-                                                EdgeInsets.symmetric(
-                                                  horizontal: responsiveWidth(
-                                                    context,
-                                                    13,
-                                                  ),
-                                                  vertical: responsiveHeight(
-                                                    context,
-                                                    14,
-                                                  ),
-                                                ),
+                                            EdgeInsets.symmetric(
+                                              horizontal: responsiveWidth(
+                                                context,
+                                                13,
+                                              ),
+                                              vertical: responsiveHeight(
+                                                context,
+                                                14,
+                                              ),
+                                            ),
                                             border: InputBorder.none,
                                           ),
                                         ),
@@ -438,19 +438,19 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                                             //   "Confirm Password: ${validation.passwordConfirmationTextEditingController.text}",
                                             // );
                                             final email =
-                                                await SecureStorageHelper
-                                                    .instance
-                                                    .getPrefString(
-                                                      key: "email",
-                                                      defaultValue: "",
-                                                    );
+                                            await SecureStorageHelper
+                                                .instance
+                                                .getPrefString(
+                                              key: "email",
+                                              defaultValue: "",
+                                            );
                                             final otp =
-                                                await SecureStorageHelper
-                                                    .instance
-                                                    .getPrefString(
-                                                      key: "otp",
-                                                      defaultValue: "",
-                                                    );
+                                            await SecureStorageHelper
+                                                .instance
+                                                .getPrefString(
+                                              key: "otp",
+                                              defaultValue: "",
+                                            );
 
                                             if (email.isEmpty || otp.isEmpty) {
                                               ScaffoldMessenger.of(
@@ -483,8 +483,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                                             }
 
                                             if (validation
-                                                    .newPasswordTextEditingController
-                                                    .text !=
+                                                .newPasswordTextEditingController
+                                                .text !=
                                                 validation
                                                     .passwordConfirmationTextEditingController
                                                     .text) {
@@ -519,12 +519,12 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                                             ),
                                             shape: RoundedRectangleBorder(
                                               borderRadius:
-                                                  BorderRadius.circular(
-                                                    responsiveWidth(
-                                                      context,
-                                                      10,
-                                                    ),
-                                                  ),
+                                              BorderRadius.circular(
+                                                responsiveWidth(
+                                                  context,
+                                                  10,
+                                                ),
+                                              ),
                                             ),
                                             elevation: 1,
                                             shadowColor: const Color.fromRGBO(
