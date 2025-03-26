@@ -1,5 +1,5 @@
-import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:foodtek_project/view/screens/checkout_screens/add_card_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../helper/responsive.dart';
@@ -16,12 +16,11 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   bool isCashSelected = false;
   bool isMastercardSelected = false;
   bool isVisaSelected = false;
-  int selectedTabIndex = 0;
-  int _selectedIndex = 2;
+  int selectedIndex = 2;
 
-  void _onItemTapped(int index) {
+  void onItemTapped(int index) {
     setState(() {
-      _selectedIndex = index;
+      selectedIndex = index;
     });
   }
 
@@ -29,7 +28,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       bottom: true,
-
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
@@ -236,7 +234,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         ),
                       ),
                       child: TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                        },
                         child: Text(
                           'Add',
                           style: GoogleFonts.inter(
@@ -269,7 +268,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       onTap: () {
                         setState(() {
                           isCardSelected = true;
-                          isCashSelected = false; // Deselect Cash
+                          isCashSelected = false;
                         });
                       },
                       child: Row(
@@ -320,7 +319,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       onTap: () {
                         setState(() {
                           isCardSelected = false;
-                          isCashSelected = true; // Select Cash
+                          isCashSelected = true;
                         });
                       },
                       child: Row(
@@ -436,8 +435,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       onTap: () {
                         setState(() {
                           isMastercardSelected = false;
-                          isVisaSelected =
-                              true; // Correctly set Visa as selected
+                          isVisaSelected = true;
                         });
                       },
                       child: Row(
@@ -451,13 +449,13 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                 color:
                                     isVisaSelected
                                         ? Color(0xFF34B56F)
-                                        : Colors.grey, // Fix here
+                                        : Colors.grey,
                                 width: 2,
                               ),
                               color: Colors.white,
                             ),
                             child:
-                                isVisaSelected // Fix UI logic
+                                isVisaSelected
                                     ? Center(
                                       child: Container(
                                         width: responsiveWidth(context, 9),
@@ -609,7 +607,14 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                             borderRadius: BorderRadius.circular(7),
                           ),
                           child: TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => AddCardScreen(),
+                                ),
+                              );
+                            },
                             child: Text(
                               'Place My Order',
                               style: GoogleFonts.inter(
@@ -634,13 +639,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         floatingActionButton: FloatingActionButton(
           materialTapTargetSize: MaterialTapTargetSize.padded,
           onPressed: () {},
-
           backgroundColor: Colors.green,
-          //
-          // Changed to green color
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30),
-            // Round the frame of the button
           ),
           child: Icon(
             Icons.shopping_cart_outlined,
@@ -652,28 +653,27 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         bottomNavigationBar: Container(
           color: Color(0xFFDBF4D1),
           child: Padding(
-            padding: EdgeInsets.only(bottom: responsiveHeight(context, 30)),
-            // إضافة 30 بيكسل من الأسفل
+            padding: EdgeInsets.only(bottom: responsiveHeight(context, 10)),
             child: BottomNavigationBar(
               backgroundColor: Colors.transparent,
-              currentIndex: _selectedIndex,
-              onTap: _onItemTapped,
+              currentIndex: selectedIndex,
+              onTap: onItemTapped,
               type: BottomNavigationBarType.fixed,
               elevation: 0,
               selectedItemColor: Color(0XFF25AE4B),
               unselectedItemColor: Color(0XFF484C52),
               items: const [
-                BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: 'Home'),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.home_outlined),
+                  label: 'Home',
+                ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.favorite_border_rounded),
                   label: 'Favorites',
                 ),
+                BottomNavigationBarItem(icon: SizedBox.shrink(), label: ''),
                 BottomNavigationBarItem(
-                  icon: SizedBox.shrink(), // مساحة فارغة للزر العائم
-                  label: '',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.location_on),
+                  icon: Icon(Icons.track_changes),
                   label: 'Track',
                 ),
                 BottomNavigationBarItem(
