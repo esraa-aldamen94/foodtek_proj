@@ -61,8 +61,6 @@ dependencies:
     sdk: flutter
   language_picker: ^0.4.5
   google_places_flutter: ^2.1.0
-  awesome_bottom_bar: ^1.2.4
-  convex_bottom_bar: ^3.2.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
