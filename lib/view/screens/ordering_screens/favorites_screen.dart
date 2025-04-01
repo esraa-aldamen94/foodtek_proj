@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
-class OrderScreen extends StatelessWidget {
-  const OrderScreen({super.key});
+class FavoritesScreen extends StatelessWidget {
+  const FavoritesScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
