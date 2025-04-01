@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:foodtek_project/helper/responsive.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../location_screen/delivery_tracking_screen.dart';
+import '../ordering_screens/cart_history_screen.dart';
+import '../ordering_screens/favorites_screen.dart';
+import '../ordering_screens/home_screen.dart';
+import '../profile_screens/profile_screen.dart';
 import 'order_done_successfully_screen.dart';
 
 class AddCardScreen extends StatefulWidget {
@@ -24,6 +29,30 @@ class _AddCardScreenState extends State<AddCardScreen> {
   int selectedIndex = 2;
 
   void onItemTapped(int index) {
+    Widget nextScreen;
+
+    switch (index) {
+      case 0:
+        nextScreen = HomeScreen();
+        break;
+      case 1:
+        nextScreen = FavoritesScreen();
+        break;
+      case 3:
+        nextScreen = DeliveryTrackingScreen();
+        break;
+      case 4:
+        nextScreen = ProfileScreen();
+        break;
+      default:
+        return;
+    }
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => nextScreen),
+    );
+
     setState(() {
       selectedIndex = index;
     });
@@ -382,7 +411,12 @@ class _AddCardScreenState extends State<AddCardScreen> {
         ),
         floatingActionButton: FloatingActionButton(
           materialTapTargetSize: MaterialTapTargetSize.padded,
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => CartHistoryScreen()),
+            );
+          },
           backgroundColor: Colors.green,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30),

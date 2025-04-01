@@ -3,6 +3,11 @@ import 'package:foodtek_project/view/screens/checkout_screens/add_card_screen.da
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../helper/responsive.dart';
+import '../location_screen/delivery_tracking_screen.dart';
+import '../ordering_screens/cart_history_screen.dart';
+import '../ordering_screens/favorites_screen.dart';
+import '../ordering_screens/home_screen.dart';
+import '../profile_screens/profile_screen.dart';
 
 class CheckoutScreen extends StatefulWidget {
   const CheckoutScreen({Key? key}) : super(key: key);
@@ -19,6 +24,30 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   int selectedIndex = 2;
 
   void onItemTapped(int index) {
+    Widget nextScreen;
+
+    switch (index) {
+      case 0:
+        nextScreen = HomeScreen();
+        break;
+      case 1:
+        nextScreen = FavoritesScreen();
+        break;
+      case 3:
+        nextScreen = DeliveryTrackingScreen();
+        break;
+      case 4:
+        nextScreen = ProfileScreen();
+        break;
+      default:
+        return;
+    }
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => nextScreen),
+    );
+
     setState(() {
       selectedIndex = index;
     });
@@ -638,7 +667,12 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
         floatingActionButton: FloatingActionButton(
           materialTapTargetSize: MaterialTapTargetSize.padded,
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => CartHistoryScreen()),
+            );
+          },
           backgroundColor: Colors.green,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30),

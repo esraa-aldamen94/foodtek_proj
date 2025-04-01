@@ -3,6 +3,11 @@ import 'package:foodtek_project/view/widgets/order_done_successfully_animation_w
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:ui';
 import '../../../helper/responsive.dart';
+import '../location_screen/delivery_tracking_screen.dart';
+import '../ordering_screens/cart_history_screen.dart';
+import '../ordering_screens/favorites_screen.dart';
+import '../ordering_screens/home_screen.dart';
+import '../profile_screens/profile_screen.dart';
 
 class OrderDoneSuccessfullyScreen extends StatefulWidget {
   @override
@@ -15,10 +20,35 @@ class _OrderDoneSuccessfullyScreenState
   int selectedIndex = 2;
 
   void onItemTapped(int index) {
+    Widget nextScreen;
+
+    switch (index) {
+      case 0:
+        nextScreen = HomeScreen();
+        break;
+      case 1:
+        nextScreen = FavoritesScreen();
+        break;
+      case 3:
+        nextScreen = DeliveryTrackingScreen();
+        break;
+      case 4:
+        nextScreen = ProfileScreen();
+        break;
+      default:
+        return;
+    }
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => nextScreen),
+    );
+
     setState(() {
       selectedIndex = index;
     });
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +126,14 @@ class _OrderDoneSuccessfullyScreenState
                   width: responsiveWidth(context, 327),
                   height: responsiveHeight(context, 58),
                   child: ElevatedButton(
-                    onPressed: () async {},
+                    onPressed: () async {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => DeliveryTrackingScreen(),
+                        ),
+                      );
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF25AE4B),
                       padding: EdgeInsets.symmetric(
@@ -126,7 +163,12 @@ class _OrderDoneSuccessfullyScreenState
       ),
       floatingActionButton: FloatingActionButton(
         materialTapTargetSize: MaterialTapTargetSize.padded,
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => CartHistoryScreen()),
+          );
+        },
         backgroundColor: Colors.green,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
         child: Icon(

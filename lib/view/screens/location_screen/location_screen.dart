@@ -3,6 +3,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:foodtek_project/helper/responsive.dart';
 import '../checkout_screens/checkout_screen.dart';
+import '../ordering_screens/cart_history_screen.dart';
+import '../ordering_screens/favorites_screen.dart';
+import '../ordering_screens/home_screen.dart';
+import '../profile_screens/profile_screen.dart';
 
 class LocationScreen extends StatefulWidget {
   @override
@@ -13,9 +17,34 @@ class _LocationScreenState extends State<LocationScreen> {
   GoogleMapController? _mapController;
   LatLng? selectedLocation;
   String selectedAddress = "Select a location";
+  TextEditingController searchTextEditingController = TextEditingController();
   int selectedIndex = 2;
 
   void onItemTapped(int index) {
+    Widget nextScreen;
+
+    switch (index) {
+      case 0:
+        nextScreen = HomeScreen();
+        break;
+      case 1:
+        nextScreen = FavoritesScreen();
+        break;
+      case 3:
+        nextScreen = CartHistoryScreen();
+        break;
+      case 4:
+        nextScreen = ProfileScreen();
+        break;
+      default:
+        return;
+    }
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => nextScreen),
+    );
+
     setState(() {
       selectedIndex = index;
     });
@@ -30,7 +59,6 @@ class _LocationScreenState extends State<LocationScreen> {
         body: Stack(
           clipBehavior: Clip.none,
           children: [
-            // Google Map
             SizedBox(
               width: responsiveWidth(context, 430),
               height: responsiveHeight(context, 846),
@@ -59,6 +87,74 @@ class _LocationScreenState extends State<LocationScreen> {
                 },
               ),
             ),
+            Positioned(
+              top: responsiveHeight(context, 58),
+              left: responsiveWidth(context, 16),
+              child: IconButton(
+                icon: Icon(
+                  Icons.arrow_back,
+                  color: Colors.black,
+                  size: responsiveHeight(context, 24),
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ),
+            Positioned(
+              top: responsiveHeight(context, 63),
+              left: responsiveWidth(context, 52),
+              child: Container(
+                width: responsiveWidth(context, 327),
+                height: responsiveHeight(context, 42),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(40),
+                  border: Border.all(color: Color(0xFFD6D6D6), width: 1),
+                ),
+                child: TextField(
+                  controller: searchTextEditingController,
+                  decoration: InputDecoration(
+                    hintText: 'Find your location',
+                    hintStyle: GoogleFonts.inter(
+                      fontSize: responsiveHeight(context, 12),
+                      fontWeight: FontWeight.w400,
+                      color: Color(0xFF878787),
+                      letterSpacing: 0.0,
+                    ),
+                    contentPadding: EdgeInsets.symmetric(
+                      vertical: responsiveHeight(context, 22),
+                      horizontal: responsiveWidth(context, 12),
+                    ),
+                    prefixIcon: Padding(
+                      padding: EdgeInsets.only(
+                        left: responsiveWidth(context, 16),
+                        right: responsiveWidth(context, 8),
+                      ),
+                      child: Icon(
+                        Icons.search,
+                        color: Color(0xFF25AE4B),
+                        size: responsiveHeight(context, 18),
+                      ),
+                    ),
+                    prefixIconConstraints: BoxConstraints(
+                      minWidth: responsiveWidth(context, 42),
+                      minHeight: responsiveHeight(context, 42),
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(40),
+                      borderSide: BorderSide.none,
+                    ),
+                    filled: true,
+                    fillColor: Colors.white,
+                  ),
+                  onSubmitted: (value) {
+                    _performLocationSearch(value);
+                  },
+                ),
+              ),
+            ),
+
             Positioned(
               top: responsiveHeight(context, 567),
               left: responsiveWidth(context, 46),
@@ -161,7 +257,12 @@ class _LocationScreenState extends State<LocationScreen> {
         ),
         floatingActionButton: FloatingActionButton(
           materialTapTargetSize: MaterialTapTargetSize.padded,
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => CartHistoryScreen()),
+            );
+          },
           backgroundColor: Colors.green,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30),
@@ -196,8 +297,8 @@ class _LocationScreenState extends State<LocationScreen> {
                 ),
                 BottomNavigationBarItem(icon: SizedBox.shrink(), label: ''),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.track_changes),
-                  label: 'Track',
+                  icon: Icon(Icons.history_outlined),
+                  label: 'History',
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.account_circle),
@@ -209,5 +310,9 @@ class _LocationScreenState extends State<LocationScreen> {
         ),
       ),
     );
+  }
+
+  void _performLocationSearch(String searchQuery) {
+    print('Searching for location: $searchQuery');
   }
 }

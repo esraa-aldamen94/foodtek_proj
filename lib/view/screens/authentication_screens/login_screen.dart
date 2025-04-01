@@ -6,7 +6,7 @@ import '../../../cubits/user_cubit.dart';
 import '../../../helper/responsive.dart';
 import '../../../states/user_state.dart';
 import '../../widgets/spin_kit_hour_glass_widget.dart';
-import '../ordering_screens/order_screen.dart';
+import '../ordering_screens/home_screen.dart';
 import '../authentication_screens/send_reset_link_forgot_password_screen.dart';
 import '../authentication_screens/signup_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -41,7 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
               WidgetsBinding.instance.addPostFrameCallback((_) {
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => OrderScreen()),
+                  MaterialPageRoute(builder: (context) => HomeScreen()),
                 );
               });
             } else if (state is LoginFailedState) {
