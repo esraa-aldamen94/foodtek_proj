@@ -34,7 +34,6 @@ class MyApp extends StatelessWidget {
           }
 
           return MaterialApp(
-
             debugShowCheckedModeBanner: false,
             title: 'Foodtek',
             theme: ThemeData(
@@ -48,7 +47,7 @@ class MyApp extends StatelessWidget {
             ],
             supportedLocales: [Locale('en'), Locale('ar')],
             locale: Locale(languageCode),
-            home:HomeScreen(),
+            home: HomeScreen(),
           );
         },
       ),
@@ -56,21 +55,5 @@ class MyApp extends StatelessWidget {
   }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //esra.aldamen94@gmail.com
 //Ammanjordan1991$$
-
