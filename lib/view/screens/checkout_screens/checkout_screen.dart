@@ -3,6 +3,7 @@ import 'package:foodtek_project/view/screens/checkout_screens/add_card_screen.da
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../helper/responsive.dart';
+import '../../widgets/notifications_bottom_sheet.dart';
 import '../location_screen/delivery_tracking_screen.dart';
 import '../ordering_screens/cart_history_screen.dart';
 import '../ordering_screens/favorites_screen.dart';
@@ -64,12 +65,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           elevation: 0,
           actions: [
             IconButton(
-              icon: Stack(
-                children: [
-                  const Icon(Icons.notifications_outlined, color: Colors.black),
-                ],
-              ),
-              onPressed: () {},
+              icon: const Icon(Icons.notifications_outlined, color: Colors.black),
+              onPressed: () {
+                showNotificationsSheet(context);
+              },
             ),
           ],
         ),

@@ -3,6 +3,7 @@ import 'package:foodtek_project/view/widgets/order_done_successfully_animation_w
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:ui';
 import '../../../helper/responsive.dart';
+import '../../widgets/notifications_bottom_sheet.dart';
 import '../location_screen/delivery_tracking_screen.dart';
 import '../ordering_screens/cart_history_screen.dart';
 import '../ordering_screens/favorites_screen.dart';
@@ -60,7 +61,9 @@ class _OrderDoneSuccessfullyScreenState
         actions: [
           IconButton(
             icon: const Icon(Icons.notifications_outlined, color: Colors.black),
-            onPressed: () {},
+            onPressed: () {
+              showNotificationsSheet(context);
+            },
           ),
         ],
       ),

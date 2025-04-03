@@ -4,6 +4,7 @@ import 'package:foodtek_project/helper/responsive.dart';
 import 'package:foodtek_project/view/widgets/empty_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../widgets/header_widget.dart';
 import '../profile_screens/profile_screen.dart';
 import 'favorites_screen.dart';
 import 'home_screen.dart';
@@ -85,12 +86,12 @@ class _CartHistoryScreenState extends State<CartHistoryScreen>
       MaterialPageRoute(builder: (context) => nextScreen),
     );
   }
+
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
   }
-
 
   void _onBottomNavTapped(int index) {
     setState(() {
@@ -104,6 +105,7 @@ class _CartHistoryScreenState extends State<CartHistoryScreen>
       }
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -111,12 +113,13 @@ class _CartHistoryScreenState extends State<CartHistoryScreen>
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           backgroundColor: Colors.white,
           elevation: 0,
-          toolbarHeight: kToolbarHeight + 50,
+          toolbarHeight: kToolbarHeight + 30,
           title: Padding(
-            padding: const EdgeInsets.only(top: 50),
-            child: _buildLocationAndNotification(),
+            padding: const EdgeInsets.only(top: 30),
+            child: const HeaderWidget(),
           ),
           bottom: TabBar(
             controller: _tabController,
@@ -164,7 +167,7 @@ class _CartHistoryScreenState extends State<CartHistoryScreen>
           children: [
             SizedBox(height: responsiveHeight(context, 16)),
             ...cartItems.map(
-              (item) => KeyedSubtree(
+                  (item) => KeyedSubtree(
                 key: ValueKey(item['title']),
                 child: _buildCartItem(item, () {
                   setState(() {
@@ -184,9 +187,10 @@ class _CartHistoryScreenState extends State<CartHistoryScreen>
   Widget _buildHistoryContent() {
     if (historyItems.isEmpty) {
       return EmptyWidget(
-        imagePath: "assets/images/empty.png",
-        title: "History Empty",
-        description: "You don't have any history at this time");}
+          imagePath: "assets/images/empty.png",
+          title: "History Empty",
+          description: "You don't have any history at this time");
+    }
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -200,73 +204,6 @@ class _CartHistoryScreenState extends State<CartHistoryScreen>
     );
   }
 
-  Widget _buildLocationAndNotification() {
-    return SizedBox(
-      width: responsiveWidth(context, 368),
-      height: responsiveHeight(context, 41),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [_buildLocation(), _buildNotificationIcon()],
-      ),
-    );
-  }
-
-  Widget _buildLocation() {
-    return Row(
-      children: [
-        Container(
-          color: const Color(0xFFF5F5F5),
-          width: responsiveWidth(context, 34),
-          height: responsiveHeight(context, 34),
-          child: const Icon(
-            Icons.pin_drop_outlined,
-            color: Color(0xFF4FAF5A),
-            size: 20,
-          ),
-        ),
-        SizedBox(width: responsiveWidth(context, 5)),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Current location',
-              style: GoogleFonts.inter(
-                fontSize: 12,
-                fontWeight: FontWeight.w400,
-                color: const Color(0xFF606060),
-              ),
-            ),
-            Text(
-              'Jl. Soekarno Hatta 15A..',
-              style: GoogleFonts.inter(
-                fontWeight: FontWeight.w600,
-                fontSize: 14,
-                color: const Color(0xFF101010),
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-
-  Widget _buildNotificationIcon() {
-    return Container(
-      width: responsiveWidth(context, 34),
-      height: responsiveHeight(context, 34),
-      padding: const EdgeInsets.all(8),
-      decoration: BoxDecoration(
-        color: const Color(0xFFF5F5F5),
-        borderRadius: BorderRadius.circular(4),
-      ),
-      child: const Icon(
-        Icons.notifications_outlined,
-        color: Colors.black,
-        size: 18,
-      ),
-    );
-  }
-
   Widget _buildCartItem(Map<String, dynamic> item, Function onDelete) {
     return Slidable(
       closeOnScroll: true,
@@ -275,7 +212,7 @@ class _CartHistoryScreenState extends State<CartHistoryScreen>
         motion: const ScrollMotion(),
         children: [
           CustomSlidableAction(
-            onPressed: (context) => showDeleteConfirmationDialog(context, item),
+            onPressed: (context) => showDeleteConfirmationDialog(context, item, "Cart"),
             backgroundColor: const Color(0xFFFDAC1D),
             child: Icon(
               Icons.delete_outline,
@@ -552,83 +489,100 @@ class _CartHistoryScreenState extends State<CartHistoryScreen>
   }
 
   Widget _buildHistoryItem(Map<String, dynamic> item) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 5,
-            offset: const Offset(0, 2),
+    return Slidable(
+      closeOnScroll: true,
+      key: ValueKey(item['title']),
+      endActionPane: ActionPane(
+        motion: const ScrollMotion(),
+        children: [
+          CustomSlidableAction(
+            onPressed: (context) => showDeleteConfirmationDialog(context, item, "history"),
+            backgroundColor: const Color(0xFFFDAC1D),
+            child: Icon(
+              Icons.delete_outline,
+              size: responsiveHeight(context, 25),
+              color: Colors.white,
+            ),
           ),
         ],
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            _buildHistoryItemImage(item),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        item['title'],
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.black,
-                        ),
-                      ),
-                      Row(
-                        children: [
-                          const Icon(
-                            Icons.access_time,
-                            size: 14,
-                            color: Colors.green,
-                          ),
-                          const SizedBox(width: 4),
-                          Text(
-                            item['date'],
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.grey.shade600,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    item['restaurant'],
-                    style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    item['price'],
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700,
-                      color: Color(0xFF25AE4B),
-                    ),
-                  ),
-                ],
-              ),
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 16),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.05),
+              blurRadius: 5,
+              offset: const Offset(0, 2),
             ),
           ],
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              _buildHistoryItemImage(item),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          item['title'],
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black,
+                          ),
+                        ),
+                        Row(
+                          children: [
+                            const Icon(
+                              Icons.access_time,
+                              size: 14,
+                              color: Colors.green,
+                            ),
+                            const SizedBox(width: 4),
+                            Text(
+                              item['date'],
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: Colors.grey.shade600,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      item['restaurant'],
+                      style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      item['price'],
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
+                        color: Color(0xFF25AE4B),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
-
   Widget _buildHistoryItemImage(Map<String, dynamic> item) {
     String imagePath = "";
     if (item['title'] == 'Chicken Burger') {
@@ -734,13 +688,16 @@ class _CartHistoryScreenState extends State<CartHistoryScreen>
     );
   }
 
-  void showDeleteConfirmationDialog(BuildContext context, Map<String, dynamic> item,) {showDialog(
+  void showDeleteConfirmationDialog(BuildContext context, Map<String, dynamic> item, String tab) {
+    showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text("Confirm Delete"),
           content: Text(
-            "Are you sure you want to delete ${item['title']} from your cart?",
+            tab == "Cart"
+                ? "Are you sure you want to delete ${item['title']} from your cart?"
+                : "Are you sure you want to delete ${item['title']} from your history?",
           ),
           actions: [
             TextButton(
@@ -752,7 +709,11 @@ class _CartHistoryScreenState extends State<CartHistoryScreen>
             TextButton(
               onPressed: () {
                 setState(() {
-                  cartItems.remove(item);
+                  if (tab == "Cart") {
+                    cartItems.remove(item);
+                  } else {
+                    historyItems.remove(item);
+                  }
                 });
                 Navigator.of(context).pop();
               },

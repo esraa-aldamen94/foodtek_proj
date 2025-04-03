@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:foodtek_project/helper/responsive.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../widgets/notifications_bottom_sheet.dart';
 import '../location_screen/delivery_tracking_screen.dart';
 import '../ordering_screens/cart_history_screen.dart';
 import '../ordering_screens/favorites_screen.dart';
@@ -70,12 +71,10 @@ class _AddCardScreenState extends State<AddCardScreen> {
           elevation: 0,
           actions: [
             IconButton(
-              icon: Stack(
-                children: [
-                  const Icon(Icons.notifications_outlined, color: Colors.black),
-                ],
-              ),
-              onPressed: () {},
+              icon: const Icon(Icons.notifications_outlined, color: Colors.black),
+              onPressed: () {
+                showNotificationsSheet(context);
+              },
             ),
           ],
         ),
@@ -113,7 +112,7 @@ class _AddCardScreenState extends State<AddCardScreen> {
                 ),
                 SizedBox(height: responsiveHeight(context, 2)),
                 Container(
-                  width: responsiveWidth(context, 295),
+                  width: responsiveWidth(context, 368),
                   height: responsiveHeight(context, 46),
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -169,7 +168,7 @@ class _AddCardScreenState extends State<AddCardScreen> {
                 ),
                 SizedBox(height: responsiveHeight(context, 2)),
                 Container(
-                  width: responsiveWidth(context, 295),
+                  width: responsiveWidth(context, 368),
                   height: responsiveHeight(context, 46),
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -186,31 +185,51 @@ class _AddCardScreenState extends State<AddCardScreen> {
                       ),
                     ],
                   ),
-                  child: TextField(
-                    keyboardType: TextInputType.number,
-                    controller: cardNumberTextEditingController,
-                    style: GoogleFonts.inter(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 14,
-                      color: Color(0XFF1A1C1E),
-                      height: 1.4,
-                      letterSpacing: -0.01,
-                    ),
-                    decoration: InputDecoration(
-                      hintText: '',
-                      hintStyle: GoogleFonts.inter(
-                        fontWeight: FontWeight.w400,
-                        fontSize: responsiveHeight(context, 14),
-                        color: Colors.grey[500],
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: TextField(
+                          keyboardType: TextInputType.number,
+                          controller: cardNumberTextEditingController,
+                          style: GoogleFonts.inter(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 14,
+                            color: Color(0XFF1A1C1E),
+                            height: 1.4,
+                            letterSpacing: -0.01,
+                          ),
+                          decoration: InputDecoration(
+                            hintText: '',
+                            hintStyle: GoogleFonts.inter(
+                              fontWeight: FontWeight.w400,
+                              fontSize: responsiveHeight(context, 14),
+                              color: Colors.grey[500],
+                            ),
+                            contentPadding: EdgeInsets.symmetric(
+                              horizontal: responsiveWidth(context, 13),
+                              vertical: responsiveHeight(context, 14),
+                            ),
+                            border: InputBorder.none,
+                          ),
+                        ),
                       ),
-                      contentPadding: EdgeInsets.symmetric(
-                        horizontal: responsiveWidth(context, 13),
-                        vertical: responsiveHeight(context, 14),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 8),
+                        child: Container(
+                          width: responsiveWidth(context, 38),
+                          height: responsiveHeight(context, 38),
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage('assets/icons/card_icon.png'),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
                       ),
-                      border: InputBorder.none,
-                    ),
+                    ],
                   ),
                 ),
+
 
                 SizedBox(height: responsiveHeight(context, 16)),
 

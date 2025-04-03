@@ -20,7 +20,7 @@ class EmptyWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(height: responsiveHeight(context, 240)),
+          SizedBox(height: responsiveHeight(context, 50)),
           Image.asset(
             imagePath,
             width: responsiveWidth(context, 282),
