@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foodtek_project/cubits/location_cubit.dart';
 import 'package:foodtek_project/states/language_state.dart';
+import 'package:foodtek_project/view/screens/checkout_screens/add_card_screen.dart';
+import 'package:foodtek_project/view/screens/checkout_screens/checkout_screen.dart';
+import 'package:foodtek_project/view/screens/ordering_screens/Cart_history_screen.dart';
 import 'package:foodtek_project/view/screens/ordering_screens/home_screen.dart';
+import 'cubits/favorite_cubit.dart';
 import 'cubits/language_cubit.dart';
 import 'cubits/user_cubit.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -24,6 +28,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => LocationCubit()),
         BlocProvider(create: (context) => UserCubit()),
         BlocProvider(create: (context) => LanguageCubit()),
+        BlocProvider(create: (context) => FavoriteCubit()),
       ],
       child: BlocBuilder<LanguageCubit, LanguageState>(
         builder: (context, state) {
